@@ -1,0 +1,106 @@
+<html>
+
+<head>
+    <!-- Specify the character encoding for the HTML document. -->
+    <meta charset="UTF-8">
+
+    <!-- A Mobile-optimized site. Not all devices have the same width;
+        you should ensure that your pages work well in a large variety of screen sizes and orientations. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Fonts - Courgette, Karla, Lato, Oswald, and Raleway. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Karla&family=Lato&family=Oswald:wght@400;700&family=Raleway&display=swap"
+        rel="stylesheet">
+
+    <!-- My external CSS file. -->
+    <link type="text/css" rel="stylesheet" href="./resources/css/style.css">
+
+    <!-- Page title in modern browsers. -->
+    <title>Sprint 2</title>
+</head>
+
+<body>
+    <!-- Start - Header Section with semantic HTML. -->
+    <header class="header-section">
+        <!-- Start - Header Logo -->
+        <a href="./index.html">
+            <img src="./resources/images/logo.svg" alt="Logo." role="img" />
+        </a>
+        <!-- End - Header Logo -->
+        <!-- Start - Header Navigation -->
+        <nav>
+            <label for="drop" class="toggle" id="hamburger">&#8801;</label>
+            <input type="checkbox" id="drop" />
+            <ul class="menu">
+                <li><a href="./about.html">About Us</a></li>
+            </ul>
+        </nav>
+        <!-- End - Header Navigation -->
+    </header>
+    <!-- End - Header Section with semantic HTML. -->
+
+
+
+    <!-- Start - Add Task Form. -->
+    <div class="add-task-form-section">
+        <form action="#" id="add-task-form-id">
+            <div class="form-container">
+                <h1>Add Task</h1>
+                <p>Please fill in this form to create a task.</p>
+                <hr>
+
+                <!-- We decided to remove the word "required" from the HTML tags of the form,
+                     to use the field validations through JavaScript. -->
+                <label for="name-field">Name</label>
+                <input type="text" placeholder="Enter Task Name" name="name-field" id="name-field-id">
+
+                <label for="description-field">Description</label>
+                <textarea id="description-field-id" name="description-field" rows="2" cols="50"></textarea>
+
+                <label for="assignedto-field">Assigned To</label>
+                <input type="text" placeholder="Enter Responsable for the Task" name="assignedto-field" id="assignedto-field-id">
+
+                <label for="duedate-field">Due Date:</label>
+                <input type="date" id="duedate-field-id" name="duedate-field">
+
+                <label for="status-field">Status:</label>
+                <select name="status-field" id="status-field-id">
+                    <option value="To-do">To-do</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Review">Review</option>
+                    <option value="Done">Done</option>
+                </select>
+
+                <div class="clearfix">
+                    <button type="submit" class="add-task-button">Add Task</button>
+                </div>
+
+                <div id="error-message"></div>
+                <span id="topright"></span>
+            </div>
+        </form>
+    </div>
+    <!-- Finish - Add Task Form. -->
+
+
+
+
+
+
+    <!-- Start - Footer Section with semantic HTML. -->
+    <footer class="footer-section">
+        <span>© 2022 Anderson, Geneve, and Gagan. </span>
+    </footer>
+    <!-- End - Footer Section with semantic HTML. -->
+
+
+
+
+    <!-- My external JavaScript file. -->
+    <script type="text/javascript" src="./resources/js/scripts.js"></script>
+</body>
+
+</html>
