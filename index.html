@@ -1,12 +1,17 @@
 <html>
 
 <head>
-    <!-- Specify the character encoding for the HTML document. -->
+    <!-- Specify the character encoding for the HTML document. UTF-8 character set covers almost all of the characters and symbols in the world! -->
     <meta charset="UTF-8">
 
-    <!-- A Mobile-optimized site. Not all devices have the same width;
-        you should ensure that your pages work well in a large variety of screen sizes and orientations. -->
+    <!-- Browser instructions on how to control the page's dimensions and scaling.
+    - The width=device-width part sets the width of the page to follow the screen-width of the device (which will vary depending on the device).
+    - The initial-scale=1.0 part sets the initial zoom level when the page is first loaded by the browser.
+    -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./resources/images/favicon.svg" type="image/svg+xml">
 
     <!-- Google Fonts - Courgette, Karla, Lato, Oswald, and Raleway. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +20,11 @@
         href="https://fonts.googleapis.com/css2?family=Courgette&family=Karla&family=Lato&family=Oswald:wght@400;700&family=Raleway&display=swap"
         rel="stylesheet">
 
-    <!-- My external CSS file. -->
+    <!-- External CSS file. -->
     <link type="text/css" rel="stylesheet" href="./resources/css/style.css">
 
     <!-- Page title in modern browsers. -->
-    <title>Sprint 2</title>
+    <title>Tarefa</title>
 </head>
 
 <body>
@@ -44,27 +49,37 @@
 
 
 
+
     <!-- Start - Add Task Form. -->
     <div class="add-task-form-section">
-        <form action="#" id="add-task-form-id">
+        <!-- Start - Expanded Form. -->
+        <form action="#" id="add-task-form-id" class="element-display-none">
             <div class="form-container">
-                <h1>Add Task</h1>
+                <div class="form-title-container">
+                    <img id="form-expanded-toggle-id" src="./resources/images/up-arrow.svg" alt="Up arrow.">
+                    <h1>Add Task</h1>
+                </div>
                 <p>Please fill in this form to create a task.</p>
                 <hr>
 
-                <!-- We decided to remove the word "required" from the HTML tags of the form,
+                <!-- We decided to not use the property "required" of the HTML tags of the form,
                      to use the field validations through JavaScript. -->
                 <label for="name-field">Name</label>
                 <input type="text" placeholder="Enter Task Name" name="name-field" id="name-field-id">
+                <div class="messageDiv" id="name-field-message"></div>
 
                 <label for="description-field">Description</label>
                 <textarea id="description-field-id" name="description-field" rows="2" cols="50"></textarea>
+                <div class="messageDiv" id="description-field-message"></div>
 
                 <label for="assignedto-field">Assigned To</label>
-                <input type="text" placeholder="Enter Responsable for the Task" name="assignedto-field" id="assignedto-field-id">
+                <input type="text" placeholder="Enter Responsable for the Task" name="assignedto-field"
+                    id="assignedto-field-id">
+                <div class="messageDiv" id="assignedto-field-message"></div>
 
                 <label for="duedate-field">Due Date:</label>
                 <input type="date" id="duedate-field-id" name="duedate-field">
+                <div class="messageDiv" id="duedate-field-message"></div>
 
                 <label for="status-field">Status:</label>
                 <select name="status-field" id="status-field-id">
@@ -78,14 +93,127 @@
                     <button type="submit" class="add-task-button">Add Task</button>
                 </div>
 
-                <div id="error-message"></div>
-                <span id="topright"></span>
+                <span id="span-vertical-id"></span>
             </div>
         </form>
+        <!-- End - Expanded Form. -->
+        <!-- Start - Collapsed Form. -->
+        <form action="#" id="collapsed-form-id">
+            <div class="form-container">
+                <div class="form-title-container">
+                    <img id="form-collapsed-toggle-id" src="./resources/images/down-arrow.svg" alt="Down arrow.">
+                    <h1>Add Task</h1>
+                </div>
+                <p>Click on the green arrow to create a task.</p>
+                <hr>
+                <span id="span-horizontal-id"></span>
+            </div>
+        </form>
+        <!-- End - Collapsed Form. -->
     </div>
     <!-- Finish - Add Task Form. -->
 
 
+
+
+    <!-- Start - Task List Section. -->
+    <div class="list-task-section" id="list-task-section-id">
+
+        <!--
+        <div class="task">
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">Id:<span class="task-field-value">1</span> Name: </p>
+                    <p class="task-field-value"> Plan the project. </p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">Status:</p>
+                    <p class="task-field-value">TODO</p>
+                </div>
+            </div>
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">AssignedTo:</p>
+                    <p class="task-field-value">Anderson.</p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">DueDate:</p>
+                    <p class="task-field-value">29/06/2022</p>
+                </div>
+            </div>
+            <p class="task-field-label">Description:</p>
+            <p class="task-field-value">Developing a detailed project plan, defining the scope of the project and
+                assigning team
+                members to specific tasks.</p>
+            <div class="task-button-container">
+                <input type="hidden" id="hidden-delete-id1" name="hidden-field-id" value="1"></input>
+                <button class="btn-delete" type="button">DELETE</button>
+            </div>
+        </div>
+        <div class="task">
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">Id:<span class="task-field-value">2</span> Name: </p>
+                    <p class="task-field-value"> Create the wireframe. </p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">Status:</p>
+                    <p class="task-field-value">TODO</p>
+                </div>
+            </div>
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">AssignedTo:</p>
+                    <p class="task-field-value">Geneve.</p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">DueDate:</p>
+                    <p class="task-field-value">29/06/2022</p>
+                </div>
+            </div>
+            <p class="task-field-label">Description:</p>
+            <p class="task-field-value">It presents the information that will be displayed on the page, outline of the
+                structure and
+                layout of the page and overall direction and description of the user interface.</p>
+            <div class="task-button-container">
+                <input type="hidden" id="hidden-delete-id2" name="hidden-field-id" value="2"></input>
+                <button class="btn-delete" type="button">DELETE</button>
+            </div>
+        </div>
+        <div class="task">
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">Id:<span class="task-field-value">3</span> Name: </p>
+                    <p class="task-field-value"> Code the page. </p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">Status:</p>
+                    <p class="task-field-value">TODO</p>
+                </div>
+            </div>
+            <div class="task-fields-layer">
+                <div class="task-column-left">
+                    <p class="task-field-label">AssignedTo:</p>
+                    <p class="task-field-value">Gagan.</p>
+                </div>
+                <div class="task-column-right">
+                    <p class="task-field-label">DueDate:</p>
+                    <p class="task-field-value">29/06/2022</p>
+                </div>
+            </div>
+            <p class="task-field-label">Description:</p>
+            <p class="task-field-value">Coding and debugging. Designing and testing. Writing computer instructions.
+                Managing database
+                systems. Editing source-code. Profiling and analyzing algorithms. Implementing build systems.</p>
+            <div class="task-button-container">
+                <input type="hidden" id="hidden-delete-id3" name="hidden-field-id" value="3"></input>
+                <button class="btn-delete" type="button">DELETE</button>
+            </div>
+        </div>
+        -->
+
+    </div>
+    <!-- End - Task List Section. -->
 
 
 
@@ -99,8 +227,9 @@
 
 
 
-    <!-- My external JavaScript file. -->
-    <script type="text/javascript" src="./resources/js/scripts.js"></script>
+    <!-- External JavaScript files. -->
+    <script type="module" src="./resources/js/main.js"></script>
+
 </body>
 
 </html>

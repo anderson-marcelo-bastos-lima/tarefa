@@ -6,9 +6,11 @@
  *
  * 2. Header Section.
  *
- * 3. Hero Section.
+ * 3. Add Task Form Section.
  *
- * 4. Footer Section.
+ * 4. List Task Section.
+ *
+ * 5. Footer Section.
  *
  */
 
@@ -78,7 +80,7 @@ nav ul li {
 nav a {
     display: block;
     padding: 0 1.25rem;
-    color: #002d3b;
+    color: #484554;
     line-height: 3.2rem;
     cursor: pointer;
     text-decoration: none;
@@ -167,7 +169,7 @@ li>a:only-child:after {
         display: block;
         padding: 0 20px;
         background-color: #F5F5F5;
-        color: #002d3b;
+        color: #484554;
         font-family: 'Lato', sans-serif;
         font-weight: 400;
         letter-spacing: 0.063rem;
@@ -240,14 +242,15 @@ li>a:only-child:after {
 }
 
 
+
+
 /**
- * 3. Add Task Form Section
+ * 3. Add Task Form Section.
  */
 .add-task-form-section {
     margin-top: 1%;
     margin-left: 25%;
     margin-right: 25%;
-    height: 88vh;
     position: relative;
 }
 
@@ -261,14 +264,31 @@ li>a:only-child:after {
     flex-direction: column;
 }
 
+.form-title-container {
+    display: flex;
+}
+
+.form-title-container img {
+    opacity: 0.6;
+    transition: all .2s ease-in-out;
+}
+
+.form-title-container img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 .form-container h1 {
     font-family: 'Oswald', sans-serif;
     font-size: 1.5rem;
+    color: #32303B;
+    margin-left: 0.5rem;
 }
 
 .form-container p {
     font-family: 'Karla', sans-serif;
     font-size: 0.875rem;
+    color: #32303B;
 }
 
 .add-task-form-section hr {
@@ -281,6 +301,7 @@ li>a:only-child:after {
     font-weight: bold;
     margin-top: 0.6rem;
     margin-bottom: 0.3rem;
+    color: #32303B;
 }
 
 /* Full-width input fields */
@@ -307,14 +328,14 @@ li>a:only-child:after {
 
 /* Set a style for all buttons */
 .add-task-form-section button {
-    background-color: #04AA6D;
+    background-color: #007F59;
     color: white;
     padding: 0.5rem 1.5rem;
     margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
-    opacity: 0.9;
+    opacity: 0.8;
     font-family: 'Lato', sans-serif;
     font-size: 1rem;
 }
@@ -323,21 +344,22 @@ li>a:only-child:after {
     opacity: 1;
 }
 
-#error-message {
-    color: red;
+.messageDiv {
+    color: #B6001D;
     font-family: 'Raleway', sans-serif;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: bold;
     line-height: 1.5rem;
+    letter-spacing: 0.08rem;
     margin-top: 0.5rem;
 }
 
-#topright {
+#span-vertical-id {
     position: absolute;
     top: 0;
     right: 0;
     padding: 0.5rem;
-    background-color: #6667ab;
+    background-color: #7575FF;
     color: white;
     font-size: 0.65rem;
     font-family: 'Raleway', sans-serif;
@@ -345,6 +367,25 @@ li>a:only-child:after {
     writing-mode: vertical-rl;
     text-orientation: upright;
     text-transform: uppercase;
+}
+
+#span-horizontal-id {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    background-color: #7575FF;
+    color: white;
+    font-size: 0.75rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.15rem;
+    text-orientation: upright;
+    text-transform: uppercase;
+}
+
+.element-display-none {
+    display: none;
 }
 
 /**
@@ -371,12 +412,107 @@ li>a:only-child:after {
 
 
 
+/**
+ * 4. List Task Section.
+ */
+.list-task-section {
+    margin-top: 1%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.task {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+.task-field-label {
+    color: #32303B;
+    line-height: 1rem;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.063rem;
+}
+
+.task-field-value {
+    color: #32303B;
+    line-height: 1rem;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.task-fields-layer {
+    margin-bottom: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-column-left {
+    width: 85%;
+}
+
+.task-column-right {
+    width: 15%;
+}
+
+.task-button-container{
+    margin-top: 0.5rem;
+}
+
+.btn-delete {
+    background-color: #F73F49;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.875rem;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+/**
+ * Common breakpoints for widths of devices:
+ *
+ * 320px — 480px: Mobile devices
+ * 481px — 768px: iPads, Tablets
+ * 769px — 1024px: Small screens, laptops
+ * 1025px — 1200px: Desktops, large screens
+ * 1201px and more —  Extra large screens, TV
+ *
+ * Let's make the responsive menu for all small screens devices.
+ */
+ @media only screen and (max-width: 1024px) {
+
+    .list-task-section {
+        margin-top: 5%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .task-column-left {
+        width: 75%;
+    }
+    
+    .task-column-right {
+        width: 25%;
+    }
+
+}
+
+
+
 
 
 /**
- * 4. Footer Section.
+ * 5. Footer Section.
  */
 .footer-section {
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     padding: 0.5rem 1rem;
