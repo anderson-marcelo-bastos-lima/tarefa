@@ -34,33 +34,3 @@ const appSession = new Session();
  *
  */
  appSession.initialize();
-
-
-
-/**
- *
- * ! Comment out this function before delivery in the project.
- *
- ** function fillFields()
- *
- * Description: The fuction fill the fields: Name, Description, Assigned To and Due Date.
- *
- */
-/*
-document.addEventListener('DOMContentLoaded', function fillFields() {
-
-    // 1.) Get the fields elements.
-    const nameField = document.getElementById('name-field-id');
-    const descriptionField = document.getElementById('description-field-id');
-    const assignedtoField = document.getElementById('assignedto-field-id');
-    const duedateField = document.getElementById('duedate-field-id');
-
-    // 2.) Fill the fields elements.
-    nameField.value = 'Plan the project.';
-    descriptionField.innerText = 'Developing a detailed project plan, defining the scope of the project and assigning team members to specific tasks.';
-    assignedtoField.value = 'Anderson Lima.';
-    duedateField.value = '2022-07-04';
-
-
-});
-*/

@@ -475,6 +475,23 @@ li>a:only-child:after {
     opacity: 1;
     transform: scale(1.1);
 }
+
+.btn-done {
+    background-color: #007F59;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.875rem;
+    margin-right: 0.3rem;
+}
+
+.btn-done:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 /**
  * Common breakpoints for widths of devices:
  *

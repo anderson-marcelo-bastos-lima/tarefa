@@ -85,6 +85,65 @@ class Session {
         return;
     }
 
+    deleteTask(element) {
+        const containerDiv = element.parentElement;
+        const hiddenElement = containerDiv.getElementsByTagName('input');
+        let taskId = hiddenElement.item(0).value;
+        appSession.taskManager.deleteTask(taskId);
+        containerDiv.parentElement.remove();
+        return;
+    }
+
+    updateTask(element) {
+        // Get the right Task.
+        const containerDiv = element.parentElement;
+        const hiddenElement = containerDiv.getElementsByTagName('input');
+        let taskId = hiddenElement.item(0).value;
+
+        // Update the array of tasks and the database.
+        appSession.taskManager.updateToDone(taskId);
+
+        // Update the status on the page.
+        const arrayOfP = containerDiv.parentElement.getElementsByTagName('p');
+        arrayOfP.item(3).innerHTML = 'Done';
+
+        //remove the button.
+        element.remove();
+        return;
+    }
+
+    loadDataBase() {
+        let maxId = 0;
+        let arrayOfTasks = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            console.log('DB key= ' + localStorage.key(i));
+            arrayOfTasks.push(localStorage.getItem(localStorage.key(i)));
+            if (Number(localStorage.key(i)) > maxId) {
+                maxId = localStorage.key(i);
+            }
+        }
+        this.taskManager.loadTasks(arrayOfTasks);
+
+        this.taskManager.id = maxId;
+
+
+        /*
+        let arrayOfIds = arrayOfTasks.map(object => {
+            return object.id;
+        });
+        */
+
+        /*
+        console.log('before load .id= ' + this.taskManager.id);
+        this.taskManager.id = Math.max(arrayOfIds);
+        console.log('after load .id= ' + this.taskManager.id);
+        */
+
+
+
+        return;
+    }
+
     displayDate() {
         const spanOnVerticalOrientation = new DisplayDate();
         spanOnVerticalOrientation.showShortDateByElementId('span-vertical-id');
@@ -124,6 +183,13 @@ class Session {
         */
         document.getElementById('form-expanded-toggle-id').addEventListener('click', this.toggleDisplay, false);
         document.getElementById('form-collapsed-toggle-id').addEventListener('click', this.toggleDisplay, false);
+
+        /**
+         *
+         * Description: Load the tasks stored in the localStore.
+         *
+         */
+        this.loadDataBase();
 
         return;
 

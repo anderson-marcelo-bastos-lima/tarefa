@@ -69,35 +69,58 @@ class TaskManager {
     }
 
     addTask(name, description, assignedto, duedate, status) {
+        console.log('before id= ' + this.id);
         this.id++;
-        let task = new Task(this.id, name, description, assignedto, duedate, status)
+        console.log('after id= ' + this.id);
+        const task = new Task(this.id, name, description, assignedto, duedate, status);
         this.tasks.push(task);
-        /**
-         *
-         * TODO: Implement the storage of the task in the localStorage.
-         *
-         * !IMPORTANT: The localStorage resource works like an Array(Object) with an index (starts with 0)
-         * ! for each information store pair, but the order changes in each session.
-         * ! So the solution is the value inside the key of the type String.
-         *
-         * ? The localStorage read-only property of the window interface allows you to access a Storage object
-         * ? for the Document's origin; the stored data is saved across browser sessions.
-         * ? https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-         *
-         * Example:
-         * localStorage.setItem(this.id, task);
-         * onsole.log(`localStorage.setItem(${this.id}, ${task});`);
-         *
-         */
-
         this.render(this.tasks);
+        localStorage.setItem(this.id, JSON.stringify(task));
         return task;
+    }
+
+    loadTasks(arrayOfTasks) {
+        for (let i = 0; i < arrayOfTasks.length; i++) {
+            const obj = JSON.parse(arrayOfTasks[i]);
+            const task = new Task(obj.id, obj.name, obj.description, obj.assignedto, obj.duedate, obj.status);
+            this.tasks.push(task);
+        }
+        return this.render(this.tasks);
     }
 
     deleteTask(id) {
         for (let i = 0; i < this.tasks.length; i++) {
             if (this.tasks[i].id == id) {
-                this.tasks.splice(this.tasks[i], 1);
+                console.log('array.id= ' + this.tasks[i].id);
+                this.tasks.splice(i, 1);
+                break;
+            }
+        }
+        for (let m = 0; m < localStorage.length; m++) {
+            console.log('before Remove key= ' + localStorage.key(m));
+            console.log('before Remove Item= ' + localStorage.getItem(localStorage.key(m)));
+            if (localStorage.key(m) === id) {
+                console.log('I am here.');
+                localStorage.removeItem(localStorage.key(m));
+                break;
+            }
+        }
+        return;
+    }
+
+    updateToDone(id) {
+        for (let i = 0; i < this.tasks.length; i++) {
+            if (this.tasks[i].id == id) {
+                this.tasks[i].status = 'Done';
+                break;
+            }
+        }
+        for (let m = 0; m < localStorage.length; m++) {
+            if (localStorage.getItem(localStorage.key(m)).toString === id.toString) {
+                let obj = JSON.parse(localStorage.getItem(localStorage.key(m)));
+                obj.status = 'Done';
+                localStorage.setItem(id, JSON.stringify(obj));
+                break;
             }
         }
         return;
@@ -151,42 +174,25 @@ class TaskManager {
             printHTML += '<p class="task-field-value">' + arrayOfObjects[i].description + '</p>';
             printHTML += '<div class="task-button-container">';
             printHTML += '    <input type="hidden" id="hidden-delete-id' + arrayOfObjects[i].id + ' name="hidden-field-id" value="' + arrayOfObjects[i].id + '"></input>';
+            if (arrayOfObjects[i].status !== 'Done') {
+                printHTML += '    <button class="btn-done" type="button" id="btn-done-id' + arrayOfObjects[i].id + '">MARK AS DONE</button>';
+            }
             printHTML += '    <button class="btn-delete" type="button" id="btn-delete-id' + arrayOfObjects[i].id + '">DELETE</button>';
             printHTML += '</div>';
             printHTML += '</div>';
         }
         divListTaskSection.innerHTML = printHTML;
 
-
-        const classBtnDelete = document.getElementsByClassName("btn-delete");
+        const classBtnDelete = document.getElementsByClassName('btn-delete');
         for (let y = 0; y < classBtnDelete.length; y++) {
-            classBtnDelete[y].onclick = function () {
-                const containerDiv = this.parentElement;
-                const hiddenElement = containerDiv.getElementsByTagName('input');
-                let taskId = hiddenElement.item(0).value;
-                appSession.taskManager.deleteTask(taskId);
-                containerDiv.parentElement.remove();
-                /**
-                *
-                * TODO: Implement task deletion in localStorage and within object-oriented programming concept.
-                *
-                * ? Object-oriented programming is about modeling a system as a collection of objects, where each object
-                * ? represents some particular aspect of the system. Objects contain both functions (or methods) and data.
-                * ? https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_programming
-                *
-                * ? The localStorage read-only property of the window interface allows you to access a Storage object
-                * ? for the Document's origin; the stored data is saved across browser sessions.
-                * ? https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-                *
-                * Example:
-                * if (localStorage.getItem(localStorage.key(m)) === this.parentElement.textContent.replace(this.textContent, "")) {
-                *     localStorage.removeItem(localStorage.key(m));
-                *     this.parentElement.remove();
-                * }
-                *
-                */
-            }
-        } // for classBtnDelete.length
+            classBtnDelete[y].onclick = function () { appSession.deleteTask(classBtnDelete[y]) };
+        }
+
+        const classBtnDone = document.getElementsByClassName('btn-done');
+        for (let y = 0; y < classBtnDone.length; y++) {
+            classBtnDone[y].onclick = function () { appSession.updateTask(classBtnDone[y]) };
+        }
+
 
         return printHTML;
     } // render
