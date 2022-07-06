@@ -44,13 +44,9 @@ export { TaskForm };
  * @getters
  * @setters
  * @methods
- **Inheritance: verifyShortStringbyElement(element) : String;
- * Method description: Receives a DOM element value of the type string and checks if its value is empty
- *  and less than 9 characters long, returning a message.
- *
- **Inheritance: verifyLongStringbyElement(element) : String;
- * Method description: Receives a DOM element value of the type string and checks if its value is empty
- *  and less than 16 characters long, returning a message.
+ **Inheritance: verifyStringbyElement(element, size) : String;
+ * Method description: Receives a DOM element and a size of the type number and checks if its value is empty
+ *  and less than "size" characters long, returning a message.
  *
  **Inheritance: verifyDatebyElement(element) : String;
  * Method description: Receives a DOM element value of the type date and checks if its value is empty
@@ -79,7 +75,7 @@ class TaskForm extends VerifyValue {
 
         let message = '';
 
-        message += this.verifyShortStringbyElement(this.nameField);
+        message += this.verifyStringbyElement(this.nameField, 8);
         if (message !== '') {
             this.nameMessage.innerText = message;
             this.nameField.focus();
@@ -89,7 +85,7 @@ class TaskForm extends VerifyValue {
             this.nameMessage.innerText = '';
             event.preventDefault();
         }
-        message += this.verifyLongStringbyElement(this.descriptionField);
+        message += this.verifyStringbyElement(this.descriptionField, 15);
         if (message !== '') {
             this.descriptionMessage.innerText = message;
             this.descriptionField.focus();
@@ -99,7 +95,7 @@ class TaskForm extends VerifyValue {
             this.descriptionMessage.innerText = '';
             event.preventDefault();
         }
-        message += this.verifyShortStringbyElement(this.assignedToField);
+        message += this.verifyStringbyElement(this.assignedToField, 8);
         if (message !== '') {
             this.assignedToMessage.innerText = message;
             this.assignedToField.focus();

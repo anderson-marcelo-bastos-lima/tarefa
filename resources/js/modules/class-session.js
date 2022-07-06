@@ -44,14 +44,23 @@ export { Session };
  * @getters
  * @setters
  * @methods
- * - verifyUserInputAddTask(event) : void;
- * Method description: Capture user input, verify the data and add a task.
- *
  * - displayDate() : void;
  * Method description: Display today's date in a friendly format on the page.
  *
+ * - loadDataBase() : void;
+ * Method description: Read the data stored in localStorage and update the application.
+ *
  * - toggleDisplay() : void;
  * Method description: Adds an interaction to expand and collapse the Add Task form.
+ *
+ * - verifyUserInputAddTask(event) : void;
+ * Method description: Capture user input, verify the data and add a task.
+ *
+ * - deleteTask(element) : void;
+ * Method description: Receives the DOM element and deletes the task.
+ *
+ * - updateTask(element) : void;
+ * Method description: Receives the DOM element and updates the task.
  *
  * - initialize() : void;
  * Method description: Initialize the internal structure of the application.
@@ -60,6 +69,34 @@ export { Session };
 class Session {
     constructor(taskManager = new TaskManager()) {
         this.taskManager = taskManager;
+    }
+
+    displayDate() {
+        const spanOnVerticalOrientation = new DisplayDate();
+        spanOnVerticalOrientation.showShortDateByElementId('span-vertical-id');
+        const spanOnHorizontalOrientation = new DisplayDate();
+        spanOnHorizontalOrientation.showLongDateByElementId('span-horizontal-id');
+        return;
+    }
+
+    loadDataBase() {
+        let maxId = 0;
+        let arrayOfTasks = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            arrayOfTasks.push(localStorage.getItem(localStorage.key(i)));
+            if (Number(localStorage.key(i)) > maxId) {
+                maxId = Number(localStorage.key(i));
+            }
+        }
+        this.taskManager.loadTasks(arrayOfTasks);
+        this.taskManager.id = maxId;
+        return;
+    }
+
+    toggleDisplay() {
+        const formExpandedCollapsed = new ToggleDisplay();
+        formExpandedCollapsed.togglebyElementId('add-task-form-id', 'collapsed-form-id');
+        return;
     }
 
     verifyUserInputAddTask(event) {
@@ -72,7 +109,6 @@ class Session {
         const descriptionMessage = document.getElementById('description-field-message');
         const assignedToMessage = document.getElementById('assignedto-field-message');
         const dueDateMessage = document.getElementById('duedate-field-message');
-
         const formAddTask = new TaskForm(nameField, descriptionField, assignedToField, dueDateField, statusField, nameMessage, descriptionMessage, assignedToMessage, dueDateMessage);
         const verifyMessage = formAddTask.verifyFormInputData(event);
         if (verifyMessage === '') {
@@ -86,11 +122,18 @@ class Session {
     }
 
     deleteTask(element) {
+        // Get the right Task.
         const containerDiv = element.parentElement;
         const hiddenElement = containerDiv.getElementsByTagName('input');
         let taskId = hiddenElement.item(0).value;
+
+        // Update the array of tasks and the database.
         appSession.taskManager.deleteTask(taskId);
+
+        // Update the page.
         containerDiv.parentElement.remove();
+
+        // Every method must have the return line.
         return;
     }
 
@@ -103,63 +146,49 @@ class Session {
         // Update the array of tasks and the database.
         appSession.taskManager.updateToDone(taskId);
 
-        // Update the status on the page.
+        // Update the page.
         const arrayOfP = containerDiv.parentElement.getElementsByTagName('p');
         arrayOfP.item(3).innerHTML = 'Done';
-
-        //remove the button.
         element.remove();
-        return;
-    }
 
-    loadDataBase() {
-        let maxId = 0;
-        let arrayOfTasks = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            console.log('DB key= ' + localStorage.key(i));
-            arrayOfTasks.push(localStorage.getItem(localStorage.key(i)));
-            if (Number(localStorage.key(i)) > maxId) {
-                maxId = localStorage.key(i);
-            }
-        }
-        this.taskManager.loadTasks(arrayOfTasks);
-
-        this.taskManager.id = maxId;
-
-
-        /*
-        let arrayOfIds = arrayOfTasks.map(object => {
-            return object.id;
-        });
-        */
-
-        /*
-        console.log('before load .id= ' + this.taskManager.id);
-        this.taskManager.id = Math.max(arrayOfIds);
-        console.log('after load .id= ' + this.taskManager.id);
-        */
-
-
-
-        return;
-    }
-
-    displayDate() {
-        const spanOnVerticalOrientation = new DisplayDate();
-        spanOnVerticalOrientation.showShortDateByElementId('span-vertical-id');
-        const spanOnHorizontalOrientation = new DisplayDate();
-        spanOnHorizontalOrientation.showLongDateByElementId('span-horizontal-id');
-        return;
-    }
-
-    toggleDisplay() {
-        const formExpandedCollapsed = new ToggleDisplay();
-        formExpandedCollapsed.togglebyElementId('add-task-form-id', 'collapsed-form-id');
+        // Every method must have the return line.
         return;
     }
 
     initialize() {
+
         /**
+        *
+        **Step 1: Show the date on the page.
+        *
+        * Description: Sets up Session.displayDate() that will be called whenever the "DOMContentLoaded" event is delivered.
+        *
+        */
+        document.addEventListener('DOMContentLoaded', this.displayDate, false);
+
+        /**
+         *
+         **Step 2: Load the tasks stored in the localStore.
+         *
+         * Description: Call the loadDataBase() method of the Session class.
+         *
+         */
+        this.loadDataBase();
+
+        /**
+        *
+        **Step 3: Enable expand and collapse the form by clicking the green arrow button.
+        *
+        * Description: Sets up Session.toggleDisplay() that will be called whenever the event of the DOM element is delivered.
+        *
+        */
+        document.getElementById('form-expanded-toggle-id').addEventListener('click', this.toggleDisplay, false);
+        document.getElementById('form-collapsed-toggle-id').addEventListener('click', this.toggleDisplay, false);
+
+
+        /**
+         *
+         **Step 4: Enables adding a task by clicking the "Add task" button.
          *
          * Description: Sets up Session.addTask(event) that will be called whenever the "submit" event of the DOM element is delivered.
          *
@@ -169,27 +198,6 @@ class Session {
          */
         document.querySelector('#add-task-form-id').addEventListener('submit', this.verifyUserInputAddTask, false);
 
-        /**
-        *
-        * Description: Sets up Session.displayDate() that will be called whenever the "DOMContentLoaded" event is delivered.
-        *
-        */
-        document.addEventListener('DOMContentLoaded', this.displayDate, false);
-
-        /**
-        *
-        * Description: Sets up Session.toggleDisplay() that will be called whenever the event of the DOM element is delivered.
-        *
-        */
-        document.getElementById('form-expanded-toggle-id').addEventListener('click', this.toggleDisplay, false);
-        document.getElementById('form-collapsed-toggle-id').addEventListener('click', this.toggleDisplay, false);
-
-        /**
-         *
-         * Description: Load the tasks stored in the localStore.
-         *
-         */
-        this.loadDataBase();
 
         return;
 

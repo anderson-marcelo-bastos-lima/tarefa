@@ -47,7 +47,12 @@ export { TaskManager };
  *  and than call the TaskManager.render(this.tasks) method to show the TaskManager.tasks on the page.
  *
  * - deleteTask(id) : String;
- * Method description: Receives the id of the task and remove it from the TaskManager.tasks property of the type Array(Object)
+ * Method description: Receives the id of the task and removes it from the TaskManager.tasks property of the type Array(Object)
+ *  and from the localStorage feature.
+ *
+ * - deleteTask(id) : String;
+ * Method description: Receives the id of the task and removes it from the TaskManager.tasks property of the type Array(Object)
+ *  and from the localStorage feature.
  *
  * - getAllTasks() : String;
  * Method description: Call the TaskManager.render(this.tasks) method to show the TaskManager.tasks on the page.
@@ -91,16 +96,12 @@ class TaskManager {
     deleteTask(id) {
         for (let i = 0; i < this.tasks.length; i++) {
             if (this.tasks[i].id == id) {
-                console.log('array.id= ' + this.tasks[i].id);
                 this.tasks.splice(i, 1);
                 break;
             }
         }
         for (let m = 0; m < localStorage.length; m++) {
-            console.log('before Remove key= ' + localStorage.key(m));
-            console.log('before Remove Item= ' + localStorage.getItem(localStorage.key(m)));
             if (localStorage.key(m) === id) {
-                console.log('I am here.');
                 localStorage.removeItem(localStorage.key(m));
                 break;
             }
@@ -116,7 +117,7 @@ class TaskManager {
             }
         }
         for (let m = 0; m < localStorage.length; m++) {
-            if (localStorage.getItem(localStorage.key(m)).toString === id.toString) {
+            if (localStorage.key(m) === id) {
                 let obj = JSON.parse(localStorage.getItem(localStorage.key(m)));
                 obj.status = 'Done';
                 localStorage.setItem(id, JSON.stringify(obj));
