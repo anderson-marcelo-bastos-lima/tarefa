@@ -46,13 +46,17 @@ export { TaskManager };
  *  push it to the TaskManager.tasks property of the type Array(Object), store it on the localStore feature
  *  and than call the TaskManager.render(this.tasks) method to show the TaskManager.tasks on the page.
  *
- * - deleteTask(id) : String;
- * Method description: Receives the id of the task and removes it from the TaskManager.tasks property of the type Array(Object)
- *  and from the localStorage feature.
+ * - loadTasks(arrayOfTasks) : String;
+ * Method description: Receives an array of objects of the type Task class and inserts these objects into TaskManager.tasks property
+ *  of the type Array(Object).
  *
  * - deleteTask(id) : String;
  * Method description: Receives the id of the task and removes it from the TaskManager.tasks property of the type Array(Object)
  *  and from the localStorage feature.
+ *
+ * - updateToDone(id) : String;
+ * Method description: Receives the id of the task and updates the status property to "Done" from the TaskManager.tasks property
+ *  of the type Array(Object) and from the localStorage feature.
  *
  * - getAllTasks() : String;
  * Method description: Call the TaskManager.render(this.tasks) method to show the TaskManager.tasks on the page.
@@ -74,9 +78,7 @@ class TaskManager {
     }
 
     addTask(name, description, assignedto, duedate, status) {
-        console.log('before id= ' + this.id);
         this.id++;
-        console.log('after id= ' + this.id);
         const task = new Task(this.id, name, description, assignedto, duedate, status);
         this.tasks.push(task);
         this.render(this.tasks);
@@ -145,7 +147,6 @@ class TaskManager {
 
         const divListTaskSection = document.getElementById('list-task-section-id');
         divListTaskSection.innerHTML = '';
-
 
         let printHTML = '';
         for (let i = 0; i < arrayOfObjects.length; i++) {
